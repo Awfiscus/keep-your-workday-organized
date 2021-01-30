@@ -3,7 +3,10 @@
 //When the time is on the current hour the time block is red
 //When the time is future the time block is green
 
-
+//first thing get from local storage
+//if something in there, put it in appropriate textarea
+var text = localStorage.getItem("9am")
+console.log(text);
 //Functions:
 
 //Need a function to equate if a time block value is equal to current time then determine its color
@@ -15,4 +18,13 @@
 //Event Listeners:
 
 //Need an event listener for save buttons to kick off function for storing input data into local storage
+var saveBtn = $(".saveBtn")
 
+saveBtn.click(function() {
+  var btn = $(this)
+  var row = btn.parent()
+  var textarea = row.children("texarea")
+  console.log(bt.parent().children());  
+})
+
+//save to local storage
