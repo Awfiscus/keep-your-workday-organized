@@ -1,7 +1,7 @@
 
 
 
-
+//Declared Global Variables
 var timeBlocks = ["9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm"]
 var taskBarInput = []
 var saveBtn = $(".saveBtn")
@@ -11,67 +11,57 @@ var currentTime = moment().format("HH:mm")
 var timeId = []
 var displayDay = $("#currentDay")
 
+//displays the time and day at the top of the page
 displayDay.text(currentDay)
 
-
+//this function pushes the values from the input bars into an array
 function fillData(input) {
     for(var i = 0; i < input.length; i++) {
         taskBarInput.push(input[i].value)
     }
-    // saveLocale()
 }
 
+//this function allows the divs to be put into a array for use in the applyTimeColors function
 function idFinder(div) {
     for(var i = 0; i < div.length; i++) {
         timeId.push(div[i])
     }
 }
 
-//Need a function to equate if a time block value is equal to current time then determine its color
+//based on if/else if statements the for loop goes through the div array one by one checking the ids to see if they match the critera
 function applyTimeColors() {
     for(var i = 0; i < timeId.length; i++) {
-    if($(timeId[i]).attr("id") === parseInt(currentTime)) {
+    if($(timeId[i]).attr("id") == parseInt(currentTime)) {
         $(timeId[i]).addClass("present")
     } else if($(timeId[i]).attr("id") < parseInt(currentTime)) {
         $(timeId[i]).addClass("past")
     } else if($(timeId[i]).attr("id") > parseInt(currentTime)) {
-        $(timeId[i]),addClass("future")
+        $(timeId[i]).addClass("future")
     } console.log(timeId);
 }}
 
-console.log(parseInt(currentTime));
-console.log(timeId[1]);
-
-
-
-//moment().format(LT) is current time in form of 3:26 PM
-
-//Need a function for storing input value into local storage
-
-//Event Listeners:
-
-//Need an event listener for save buttons to kick off function for storing input data into local storage
-var saveBtn = $(".saveBtn")
-
+//click button to start the save functions
 saveBtn.click(function() {
   var btn = $(this)
   var row = btn.parent()
   fillData($("input").toArray())
 })
 
+
+//on save click saves the input data to locale storage.
 saveBtn.click(function saveLocale() {
 for(var i = 0; i < timeBlocks.length; i++) {
     localStorage.setItem(timeBlocks[i], JSON.stringify(taskBarInput[i]))
     }
-    console.log();
 })
 
+//simple reset button allows for the clearing of locale storage to be able to refresh the page
 resetBtn.click(function resetSchedule() {
     localStorage.clear()
 })
 
 
-
+//when the window loads the data from local storage is put into the input values that they came out of. Then it runs the functions to set up the time colors based on the current time of the page opening.
 $(window).on("load", function (input) {
     var savedInputs = $("input").toArray()
     for (var i = 0; i < timeBlocks.length; i ++) {
